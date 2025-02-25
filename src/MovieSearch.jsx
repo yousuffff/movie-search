@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { MovieContext } from "./MovieContext";
 import "./MovieSearch.css";
 
-const API_URL = "http://www.omdbapi.com/?i=tt3896198&apikey=43eb1c0&s=";
+const API_URL = "https://www.omdbapi.com/?i=tt3896198&apikey=43eb1c0&s=";
 
 function MovieSearch() {
   const { movies, setMovies, query, setQuery } = useContext(MovieContext);
@@ -37,21 +37,35 @@ function MovieSearch() {
           onChange={(e) => setQuery(e.target.value)}
           className="search-input"
         />
-        <button onClick={searchMovies} className="search-button">Search</button>
+        <button onClick={searchMovies} className="search-button">
+          Search
+        </button>
       </div>
       {error && <p className="error-message">{error}</p>}
       <div className="movies-grid">
-        {movies.length > 0 ? (
-          movies.map((movie) => (
-            <Link to={`/movie/${movie.imdbID}`} key={movie.imdbID} className="movie-card">
-              <img src={movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/300x450?text=No+Image"} alt={movie.Title} className="movie-poster" />
-              <h2 className="movie-title">{movie.Title}</h2>
-              <p className="movie-year">{movie.Year}</p>
-            </Link>
-          ))
-        ) : (
-          !error && <p className="no-results">Start searching for movies above.</p>
-        )}
+        {movies.length > 0
+          ? movies.map((movie) => (
+              <Link
+                to={`/movie/${movie.imdbID}`}
+                key={movie.imdbID}
+                className="movie-card"
+              >
+                <img
+                  src={
+                    movie.Poster !== "N/A"
+                      ? movie.Poster
+                      : "https://via.placeholder.com/300x450?text=No+Image"
+                  }
+                  alt={movie.Title}
+                  className="movie-poster"
+                />
+                <h2 className="movie-title">{movie.Title}</h2>
+                <p className="movie-year">{movie.Year}</p>
+              </Link>
+            ))
+          : !error && (
+              <p className="no-results">Start searching for movies above.</p>
+            )}
       </div>
     </div>
   );
